@@ -1,24 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { fetchQuizQuestions } from "./API";
+
+//components
+import { QuestionCard } from "./components/QuestionCard";
+
+//types
+import { Difficulty } from "./API";
 
 function App() {
+  const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [number, setNumber] = useState(0);
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(true);
+
+  console.log(fetchQuizQuestions(Difficulty.EASY));
+
+  const startTrivia = async () => {};
+
+  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {};
+
+  const nextQuestion = () => {};
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>React Quiz</h1>
+      <button className="start" onClick={startTrivia}>
+        Start
+      </button>
+      <p className="score">Score:</p>
+      <p>Loading Questions.....</p>
+      {/* <QuestionCard
+        questionNumber={number + 1}
+        totalQuestions={10}
+        question={questions[number].question}
+        answers={questions[number].answers}
+        userAnswers={userAnswers ? userAnswers[number] : undefined}
+        callback={checkAnswer}
+        /> */}
+      <button className="next" onClick={nextQuestion}>
+        Next
+      </button>
     </div>
   );
 }
