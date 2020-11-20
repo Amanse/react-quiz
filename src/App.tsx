@@ -13,6 +13,8 @@ type AnswerObject = {
   correctAnswer: string;
 };
 
+const TOTAL_QUESTIONS = 15;
+
 function App() {
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<QuestionState[]>([]);
@@ -25,7 +27,10 @@ function App() {
     setLoading(true);
     setGameOver(false);
 
-    const newQuestions = await fetchQuizQuestions(Difficulty.EASY);
+    const newQuestions = await fetchQuizQuestions(
+      Difficulty.HARD,
+      TOTAL_QUESTIONS
+    );
 
     setQuestions(newQuestions);
     setScore(0);
@@ -56,7 +61,7 @@ function App() {
   const nextQuestion = () => {
     //move on to next question if not last
     const nextQuestion = number + 1;
-    if (nextQuestion === 10) {
+    if (nextQuestion === TOTAL_QUESTIONS) {
       setGameOver(true);
     } else {
       setNumber(nextQuestion);
@@ -66,7 +71,7 @@ function App() {
   return (
     <div className="App">
       <h1>React Quiz</h1>
-      {gameOver || userAnswers.length === 10 ? (
+      {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
         <button className="start" onClick={startTrivia}>
           Start
         </button>
@@ -76,7 +81,7 @@ function App() {
       {!loading && !gameOver && (
         <QuestionCard
           questionNumber={number + 1}
-          totalQuestions={10}
+          totalQuestions={TOTAL_QUESTIONS}
           question={questions[number].question}
           answers={questions[number].answers}
           userAnswer={userAnswers ? userAnswers[number] : undefined}
@@ -86,7 +91,7 @@ function App() {
       {!gameOver &&
       !loading &&
       userAnswers.length === number + 1 &&
-      number !== 9 ? (
+      number !== TOTAL_QUESTIONS - 1 ? (
         <button className="next" onClick={nextQuestion}>
           Next
         </button>
