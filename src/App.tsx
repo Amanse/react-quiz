@@ -15,6 +15,7 @@ type AnswerObject = {
 
 const TOTAL_QUESTIONS = 15;
 var userCategory: Category = Category.ANIME;
+var userDifficulty: Difficulty = Difficulty.EASY;
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -24,11 +25,13 @@ function App() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
   const [category, setCategory] = useState<string>("Anime");
+  const [difficulty, setDifficulty] = useState<string>("Easy");
 
   const startTrivia = async () => {
     setLoading(true);
     setGameOver(false);
 
+    //Category set
     switch (category) {
       case "Anime":
         userCategory = Category.ANIME;
@@ -49,8 +52,24 @@ function App() {
         userCategory = Category.ANIME;
     }
 
+    //Difficulty set
+    switch (difficulty) {
+      case "Easy":
+        userDifficulty = Difficulty.EASY;
+        break;
+      case "Medium":
+        userDifficulty = Difficulty.MEDIUM;
+        break;
+      case "Hard":
+        userDifficulty = Difficulty.HARD;
+        break;
+      default:
+        userDifficulty = Difficulty.EASY;
+        break;
+    }
+
     const newQuestions = await fetchQuizQuestions(
-      Difficulty.HARD,
+      userDifficulty,
       TOTAL_QUESTIONS,
       userCategory
     );
@@ -106,6 +125,14 @@ function App() {
               <option value="Comp">Computer</option>
               <option value="Movies">Movies</option>
               <option value="tv">TV</option>
+            </select>
+            <select
+              value={difficulty}
+              onChange={e => setDifficulty(e.target.value)}
+            >
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
             </select>
             <button className="start" onClick={startTrivia}>
               Start
