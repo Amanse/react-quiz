@@ -26,6 +26,7 @@ function App() {
   const [gameOver, setGameOver] = useState(true);
   const [category, setCategory] = useState<string>("Anime");
   const [difficulty, setDifficulty] = useState<string>("Easy");
+  const [totalQuestions, setTotalQuestions] = useState<number>(10);
 
   const startTrivia = async () => {
     setLoading(true);
@@ -110,17 +111,18 @@ function App() {
     }
   };
 
-  const changeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
-  };
-
   return (
     <>
       <div className="App">
         <h1>React Quiz</h1>
         {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
           <>
-            <select value={category} onChange={changeCategory}>
+            <select
+              value={category}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setCategory(e.target.value)
+              }
+            >
               <option value="Anime">Anime</option>
               <option value="Comp">Computer</option>
               <option value="Movies">Movies</option>
@@ -128,12 +130,25 @@ function App() {
             </select>
             <select
               value={difficulty}
-              onChange={e => setDifficulty(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setDifficulty(e.target.value)
+              }
             >
               <option value="Easy">Easy</option>
               <option value="Medium">Medium</option>
               <option value="Hard">Hard</option>
             </select>
+            <select
+              value={totalQuestions}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                setTotalQuestions(Number(e.target.value));
+              }}
+            >
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+              <option value={20}>20</option>
+            </select>
+
             <button className="start" onClick={startTrivia}>
               Start
             </button>
