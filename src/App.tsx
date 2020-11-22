@@ -13,7 +13,6 @@ type AnswerObject = {
   correctAnswer: string;
 };
 
-const TOTAL_QUESTIONS = 15;
 var userCategory: Category = Category.ANIME;
 var userDifficulty: Difficulty = Difficulty.EASY;
 
@@ -71,7 +70,7 @@ function App() {
 
     const newQuestions = await fetchQuizQuestions(
       userDifficulty,
-      TOTAL_QUESTIONS,
+      totalQuestions,
       userCategory
     );
 
@@ -104,7 +103,7 @@ function App() {
   const nextQuestion = () => {
     //move on to next question if not last
     const nextQuestion = number + 1;
-    if (nextQuestion === TOTAL_QUESTIONS) {
+    if (nextQuestion === totalQuestions) {
       setGameOver(true);
     } else {
       setNumber(nextQuestion);
@@ -115,7 +114,7 @@ function App() {
     <>
       <div className="App">
         <h1>React Quiz</h1>
-        {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+        {gameOver || userAnswers.length === totalQuestions ? (
           <>
             <select
               value={category}
@@ -159,7 +158,7 @@ function App() {
         {!loading && !gameOver && (
           <QuestionCard
             questionNumber={number + 1}
-            totalQuestions={TOTAL_QUESTIONS}
+            totalQuestions={totalQuestions}
             question={questions[number].question}
             answers={questions[number].answers}
             userAnswer={userAnswers ? userAnswers[number] : undefined}
@@ -169,7 +168,7 @@ function App() {
         {!gameOver &&
         !loading &&
         userAnswers.length === number + 1 &&
-        number !== TOTAL_QUESTIONS - 1 ? (
+        number !== totalQuestions - 1 ? (
           <button className="next" onClick={nextQuestion}>
             Next
           </button>
