@@ -6,7 +6,7 @@ import { QuestionCard } from "./components/QuestionCard";
 
 //types
 import { QuestionState, Difficulty, Category } from "./API";
-type AnswerObject = {
+export type AnswerObject = {
   question: string;
   answer: string;
   correct: boolean;
@@ -96,6 +96,11 @@ function App() {
         correct,
         correctAnswer: questions[number].correct_answer
       };
+      if (correct) {
+        e.currentTarget.style.background = "green";
+      } else if (answer !== answerObject.correctAnswer) {
+        e.currentTarget.style.background = "red";
+      }
       setUserAnswers(prev => [...prev, answerObject]);
     }
   };
@@ -141,6 +146,7 @@ function App() {
               value={totalQuestions}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                 setTotalQuestions(Number(e.target.value));
+                setGameOver(true);
               }}
             >
               <option value={10}>10</option>
@@ -154,6 +160,7 @@ function App() {
           </>
         ) : null}
         {!gameOver ? <p className="score">Score: {score}</p> : null}
+        {!gameOver ? <p>Category: {category} </p> : null}
         {loading ? <p>Loading Questions.....</p> : null}
         {!loading && !gameOver && (
           <QuestionCard
