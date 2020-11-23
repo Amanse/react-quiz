@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import { fetchQuizQuestions } from "./API";
+import "./App.css";
 
 //components
 import { QuestionCard } from "./components/QuestionCard";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  makeStyles
+} from "@material-ui/core";
 
 //types
 import { QuestionState, Difficulty, Category } from "./API";
@@ -16,6 +25,13 @@ export type AnswerObject = {
 var userCategory: Category = Category.ANIME;
 var userDifficulty: Difficulty = Difficulty.EASY;
 
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120
+  }
+}));
+
 function App() {
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<QuestionState[]>([]);
@@ -26,6 +42,8 @@ function App() {
   const [category, setCategory] = useState<string>("Anime");
   const [difficulty, setDifficulty] = useState<string>("Easy");
   const [totalQuestions, setTotalQuestions] = useState<number>(10);
+
+  const classes = useStyles();
 
   const startTrivia = async () => {
     setLoading(true);
@@ -121,42 +139,63 @@ function App() {
         <h1>React Quiz</h1>
         {gameOver || userAnswers.length === totalQuestions ? (
           <>
-            <select
-              value={category}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                setCategory(e.target.value)
-              }
-            >
-              <option value="Anime">Anime</option>
-              <option value="Comp">Computer</option>
-              <option value="Movies">Movies</option>
-              <option value="tv">TV</option>
-            </select>
-            <select
-              value={difficulty}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                setDifficulty(e.target.value)
-              }
-            >
-              <option value="Easy">Easy</option>
-              <option value="Medium">Medium</option>
-              <option value="Hard">Hard</option>
-            </select>
-            <select
-              value={totalQuestions}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                setTotalQuestions(Number(e.target.value));
-                setGameOver(true);
-              }}
-            >
-              <option value={10}>10</option>
-              <option value={15}>15</option>
-              <option value={20}>20</option>
-            </select>
+            <div className="selectForGame">
+              <FormControl className={classes.formControl}>
+                <InputLabel id="difficulty">Difficulty</InputLabel>
+                <Select
+                  labelId="difficulty"
+                  id="select1"
+                  value={difficulty}
+                  onChange={(e: any) => {
+                    setDifficulty(e.target.value);
+                  }}
+                >
+                  <MenuItem value="Easy">Easy</MenuItem>
+                  <MenuItem value="Medium">Medium</MenuItem>
+                  <MenuItem value="Hard">Hard</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="category">Category</InputLabel>
+                <Select
+                  labelId="category"
+                  id="select2"
+                  value={category}
+                  onChange={(e: any) => {
+                    setCategory(e.target.value);
+                  }}
+                >
+                  <MenuItem value="Anime">Anime</MenuItem>
+                  <MenuItem value="Comp">Comp</MenuItem>
+                  <MenuItem value="Movies">Movies</MenuItem>
+                  <MenuItem value="tv">TV</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="totalQuestions">Total Questions</InputLabel>
+                <Select
+                  labelId="totalQuestions"
+                  id="select3"
+                  value={totalQuestions}
+                  onChange={(e: any) => {
+                    setTotalQuestions(e.target.value);
+                  }}
+                >
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={15}>15</MenuItem>
+                  <MenuItem value={20}>20</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
 
-            <button className="start" onClick={startTrivia}>
+            <Button
+              variant="contained"
+              color="primary"
+              className="start"
+              onClick={startTrivia}
+            >
               Start
-            </button>
+            </Button>
           </>
         ) : null}
         {!gameOver ? <p className="score">Score: {score}</p> : null}
@@ -176,9 +215,9 @@ function App() {
         !loading &&
         userAnswers.length === number + 1 &&
         number !== totalQuestions - 1 ? (
-          <button className="next" onClick={nextQuestion}>
+          <Button color="secondary" className="next" onClick={nextQuestion}>
             Next
-          </button>
+          </Button>
         ) : null}
       </div>
     </>
