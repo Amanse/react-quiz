@@ -150,6 +150,7 @@ function App() {
                   value={difficulty}
                   onChange={(e: any) => {
                     setDifficulty(e.target.value);
+                    setGameOver(true);
                   }}
                 >
                   <MenuItem value="Easy">Easy</MenuItem>
@@ -165,6 +166,7 @@ function App() {
                   value={category}
                   onChange={(e: any) => {
                     setCategory(e.target.value);
+                    setGameOver(true);
                   }}
                 >
                   <MenuItem value="Anime">Anime</MenuItem>
@@ -181,6 +183,7 @@ function App() {
                   value={totalQuestions}
                   onChange={(e: any) => {
                     setTotalQuestions(e.target.value);
+                    setGameOver(true);
                   }}
                 >
                   <MenuItem value={10}>10</MenuItem>
