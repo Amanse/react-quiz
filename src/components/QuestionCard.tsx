@@ -5,7 +5,6 @@ import { AnswerObject } from "../App";
 import {
   Card,
   CardContent,
-  CardHeader,
   Button,
   Typography,
   ButtonGroup
