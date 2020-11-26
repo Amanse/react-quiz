@@ -10,8 +10,10 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  makeStyles
+  makeStyles,
+  Chip
 } from "@material-ui/core";
+import { Header } from "./components/Header";
 
 //types
 import { QuestionState, Difficulty, Category } from "./API";
@@ -136,7 +138,7 @@ function App() {
   return (
     <>
       <div className="App">
-        <h1>React Quiz</h1>
+        <Header />
         {gameOver || userAnswers.length === totalQuestions ? (
           <>
             <div className="selectForGame">
@@ -198,8 +200,14 @@ function App() {
             </Button>
           </>
         ) : null}
-        {!gameOver ? <p className="score">Score: {score}</p> : null}
-        {!gameOver ? <p>Category: {category} </p> : null}
+        {!gameOver ? (
+          <div className="chips-info">
+            <Chip style={{ margin: "0.7em", padding: "0.7em" }} label={score} />
+            <Chip label={category} />
+          </div>
+        ) : null}
+        {/*!gameOver ? <p className="score">Score: {score}</p> : null}
+        {!gameOver ? <p>Category: {category} </p> : null*/}
         {loading ? <p>Loading Questions.....</p> : null}
         {!loading && !gameOver && (
           <QuestionCard
