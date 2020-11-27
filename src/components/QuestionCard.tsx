@@ -5,7 +5,6 @@ import { AnswerObject } from "../App";
 import {
   Card,
   CardContent,
-  CardHeader,
   Button,
   Typography,
   ButtonGroup
@@ -33,7 +32,7 @@ export const QuestionCard: React.FC<Props> = ({
       <p className="number">
         Question: {questionNumber} / {totalQuestions}
       </p>
-      <Card>
+      <Card className="questionCard">
         <Typography
           color="textPrimary"
           component="h2"
@@ -43,13 +42,12 @@ export const QuestionCard: React.FC<Props> = ({
         <div>
           {answers.map(ans => (
             <CardContent key={ans}>
-              <ButtonGroup orientation="vertical" color="secondary">
-                <Button
-                  variant="outlined"
-                  disabled={!!userAnswer}
-                  value={ans}
-                  onClick={callback}
-                >
+              <ButtonGroup
+                variant="contained"
+                orientation="vertical"
+                color="secondary"
+              >
+                <Button disabled={!!userAnswer} value={ans} onClick={callback}>
                   <span dangerouslySetInnerHTML={{ __html: ans }} />
                 </Button>
               </ButtonGroup>

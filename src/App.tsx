@@ -13,6 +13,8 @@ import {
   makeStyles,
   Chip
 } from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
 import { Header } from "./components/Header";
 
 //types
@@ -30,7 +32,7 @@ var userDifficulty: Difficulty = Difficulty.EASY;
 const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120
+    minWidth: 110
   }
 }));
 
@@ -46,6 +48,11 @@ function App() {
   const [totalQuestions, setTotalQuestions] = useState<number>(10);
 
   const classes = useStyles();
+  const darkTheme = createMuiTheme({
+    palette: {
+      type: "dark"
+    }
+  });
 
   const startTrivia = async () => {
     setLoading(true);
@@ -118,8 +125,10 @@ function App() {
       };
       if (correct) {
         e.currentTarget.style.background = "green";
+        e.currentTarget.style.color = "#fff";
       } else if (answer !== answerObject.correctAnswer) {
         e.currentTarget.style.background = "red";
+        e.currentTarget.style.color = "#fff";
       }
       setUserAnswers(prev => [...prev, answerObject]);
     }
@@ -137,7 +146,7 @@ function App() {
 
   return (
     <>
-      <div className="App">
+      <ThemeProvider theme={darkTheme}>
         <Header />
         {gameOver || userAnswers.length === totalQuestions ? (
           <>
@@ -174,7 +183,7 @@ function App() {
                 </Select>
               </FormControl>
               <FormControl className={classes.formControl}>
-                <InputLabel id="totalQuestions">Total Questions</InputLabel>
+                <InputLabel id="totalQuestions">Questions</InputLabel>
                 <Select
                   labelId="totalQuestions"
                   id="select3"
@@ -227,7 +236,7 @@ function App() {
             Next
           </Button>
         ) : null}
-      </div>
+      </ThemeProvider>
     </>
   );
 }
